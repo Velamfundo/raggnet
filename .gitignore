@@ -3,3 +3,8 @@
 .DS_Store
 package-lock.json
 node_modules
+./*/node_modules
+./raggnet_api/node_modules
+./raggnet_frontend/node_modules
+./raggnet-api/package-lock.json
+./raggnet-frontend/package-lock.json
