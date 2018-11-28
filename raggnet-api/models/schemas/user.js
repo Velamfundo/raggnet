@@ -10,7 +10,7 @@ var userSchema = new Schema(
     phoneNumber: {type: String},
     username: {type: String},
     location: {
-      name: {type: string},
+      name: {type: String},
       coordinates: {type: [Number]}
     },
     hash: {type: String},
@@ -19,13 +19,13 @@ var userSchema = new Schema(
     isGuest: {type: Boolean},
     interests: [String],
     skills: [String],
+    imageUrl: String,
     token: String,
   }
 );
 
 // if not guest require firstName, lastName, email, hash,
 userSchema.pre('save', function(callback) {
-  console.log(this.firstName);
   if (!this.isGuest) {
     if (!this.firstName || !this.lastName)
       return callback(new Error('Missing fullname'));
