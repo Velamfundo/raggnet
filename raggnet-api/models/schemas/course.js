@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+var ObjectId = mongoose.Schema.Types.ObjectId;
 var courseSchema = new Schema(
   {
     name: {type: String, required: true},
-    author: {type: String, required: true},
+    author: [{type: String, required: true}],
     url: {type: String, required: true},
     timeline: String,
     institution: String,
+    platform: String,
     prerequisites: [String],
     tools: [String],
     price: Number,
     isOffline: Boolean,
     reviews: [String],
-    books: [String],
+    books: [ObjectId],
     size: Number,
     //startDate: Date,
     //endDate: Date,
