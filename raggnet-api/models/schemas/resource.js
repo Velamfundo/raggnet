@@ -1,30 +1,34 @@
-// NOTE: Deprecated
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
-var bookSchema = new Schema(
+var resourceSchema = new Schema(
   {
     name: {type: String, required: true},
     authors: [{type: String, required: true}],
     url: {type: String, required: true},
+    type: {type: String, required: true}, // book or course
+    institution: String,
+    platform: String,
     prerequisites: [String],
     tools: [String],
-    price: Number,
+    price: Number, // check type
     isOffline: Boolean,
     comments: [ObjectId],
-    courses: [ObjectId],
+    otherResources: [ObjectId],
     size: Number,
+    startDate: Date,
+    endDate: Date,
   }
 );
 
-bookSchema.pre('save', function(callback) {
+resourceSchema.pre('save', function(callback) {
   // ensure url starts with http://, https://, ftp://
   if (this.url && !(/^((https?)|(ftp)):\/\/.+/.test(this.url)))
     this.url = 'http://' + this.url;
   callback();
 });
 
-var Book = mongoose.model('Book', bookSchema);
+var Resource = mongoose.model('Resource', resourceSchema);
 
-module.exports = Book;
+module.exports = Resource;

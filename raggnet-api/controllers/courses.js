@@ -1,3 +1,5 @@
+// NOTE: Deprecated
+
 const Course = require('../models/schemas/course');
 
 function createCourse(req, res, next) {
@@ -42,26 +44,6 @@ function deleteCourse(req, res, next) {
   });
 }
 
-function updateReviews(req, res, next) {
-  Course.findById(req.params.id, (err, course) => {
-    if (err) next(err);
-    if (!course) return res.status(400).send('No course with that ID.');
-    course['reviews'].push(req.body.review);
-    course.save((err) => {
-      if (err) return next(err);
-    });
-    res.sendStatus(200);
-  });
-}
-
-function getReviews(req, res, next) {
-  Course.findById(req.params.id, (err, course) => {
-    if (err) next(err);
-    if (!book) return res.status(400).send('No course with that ID.');
-    return res.json(course['reviews'])
-  });
-}
-
 // TODO: download function
 
 module.exports = {
@@ -70,6 +52,4 @@ module.exports = {
   getCourseById,
   updateCourse,
   deleteCourse,
-  getReviews,
-  updateReviews,
 };

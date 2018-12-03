@@ -7,8 +7,7 @@ const config = require('./models/config');
 
 const auth = require('./controllers/auth');
 const users = require('./controllers/users');
-const courses = require('./controllers/courses');
-const books = require('./controllers/books');
+const resources = require('./controllers/resources');
 
 mongoose.connect(config.dbUrl);
 
@@ -63,26 +62,19 @@ router.route('/users/:id')
   .get(users.getUserById)
   .put(users.updateUser)
   .delete(users.deleteUser);
-router.route('/courses')
-  .get(courses.getCourses)
-  .post(courses.createCourse);
-router.route('/courses/:id')
-  .get(courses.getCourseById)
-  .put(courses.updateCourse)
-  .delete(courses.deleteCourse);
-router.route('/courses/:id/reviews')
-  .get(courses.getReviews)
-  .put(courses.updateReviews);
-router.route('/books')
-  .get(books.getBooks)
-  .post(books.createBook);
-router.route('/books/:id')
-  .get(books.getBookById)
-  .put(books.updateBook)
-  .delete(books.deleteBook);
-router.route('/books/:id/reviews')
-  .get(books.getReviews)
-  .put(books.updateReviews);
+router.route('/resources')
+  .get(resources.getResources)
+  .post(resources.createResource);
+router.route('/resources/books')
+  .get(resources.getBooks);
+router.route('/resources/courses')
+  .get(resources.getCourses);
+router.route('/resources/:id')
+  .get(resources.getResourceById)
+  .put(resources.updateResource)
+  .delete(resources.deleteResource);
+
+// TODO: Add or update comment routes
 
 // handle 404
 app.use((req, res, next) => {

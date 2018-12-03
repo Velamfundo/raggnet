@@ -1,3 +1,4 @@
+// NOTE: Deprecated
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -14,7 +15,7 @@ var courseSchema = new Schema(
     tools: [String],
     price: Number,
     isOffline: Boolean,
-    reviews: [String],
+    comments: [ObjectId],
     books: [ObjectId],
     size: Number,
     //startDate: Date,

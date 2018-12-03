@@ -1,5 +1,4 @@
-// TODO: JS prototypical inheritance
-// Resource schema
+// NOTE: Deprecated
 
 const Book = require('../models/schemas/book');
 
@@ -41,14 +40,6 @@ function deleteBook(req, res, next) {
     if (err) return next(err);
     if (!book) return res.status(400).send('No book with that ID.');
     return res.sendStatus(200);
-  });
-}
-
-function getBook(req, res, next) {
-  Book.findById(req.params.id, (err, book) => {
-    if (err) next(err);
-    if (!book) return res.status(400).send('No book with that ID.');
-    return book
   });
 }
 

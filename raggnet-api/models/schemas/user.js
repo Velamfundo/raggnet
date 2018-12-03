@@ -17,6 +17,7 @@ var userSchema = new Schema(
     companyName: {type: String},
     heading: {type: String},
     isGuest: {type: Boolean},
+    isAdmin: Boolean,
     interests: [String],
     skills: [String],
     imageUrl: String,
