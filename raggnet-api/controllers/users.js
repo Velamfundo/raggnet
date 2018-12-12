@@ -9,7 +9,7 @@ function createUser(req, res, next) {
     console.log(err);
     if (err) {
       if (err.code === 11000)
-        return res.status(400).send('Another user has this email');
+        return res.status(400).send('Another user has this email or username');
       return next(err);
     }
     return res.sendStatus(200);
@@ -32,7 +32,25 @@ function getUserById(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  User.findOneAndUpdate({'_id': req.params.id}, req.body, (err, user) => {
+  var data = {};
+
+  for (property in req.body) {
+    if (property !== 'interests' && property !== 'skills') {
+      data[property] = req.body[property];
+    } else {
+      data[property] = [];
+      if (typeof req.body[property] === 'string') {
+        data[property].push(req.body[property]);
+      } else {
+        req.body[property].forEach(item => {
+          data[property].push(item)
+        })
+      }
+    }
+  }
+
+  User.findOneAndUpdate({'_id': req.params.id}, {$push: data}, (err, user) => {
+
     if (err) return next(err);
     // if (!user) return res.status(400).send('No user with that ID.');
     return res.sendStatus(200);

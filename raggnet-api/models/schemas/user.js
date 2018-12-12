@@ -6,9 +6,9 @@ var userSchema = new Schema(
   {
     firstName: {type: String},
     lastName: {type: String},
-    email: {type: String},
+    email: {type: String, unique: true},
     phoneNumber: {type: String},
-    username: {type: String},
+    username: {type: String, unique: true},
     location: {
       name: {type: String},
       coordinates: {type: [Number]}
@@ -18,6 +18,7 @@ var userSchema = new Schema(
     heading: {type: String},
     isGuest: {type: Boolean},
     isAdmin: Boolean,
+    isSuperAdmin: Boolean,
     interests: [String],
     skills: [String],
     imageUrl: String,
@@ -34,6 +35,8 @@ userSchema.pre('save', function(callback) {
       return callback(new Error('Missing email'));
     if (!this.hash)
       return callback(new Error('Missing password'));
+    if (!this.username)
+      return callback(new Error('Missing username'));
     if (this.isModified('hash'))
       this.hash = bcrypt.hashSync(this.hash);
   }

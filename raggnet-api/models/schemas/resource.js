@@ -15,10 +15,11 @@ var resourceSchema = new Schema(
     price: Number, // check type
     isOffline: Boolean,
     comments: [ObjectId],
-    otherResources: [ObjectId],
+    otherResources: [{type: ObjectId, ref: 'Resource'}],
     size: Number,
     startDate: Date,
     endDate: Date,
+    approvedDate: Date,
   }
 );
 

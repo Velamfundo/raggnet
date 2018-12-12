@@ -8,8 +8,12 @@ const config = require('./models/config');
 const auth = require('./controllers/auth');
 const users = require('./controllers/users');
 const resources = require('./controllers/resources');
+const admins = require('./controllers/admins')
 
-mongoose.connect(config.dbUrl);
+mongoose.connect(config.dbUrl)
+mongoose.set('useNewUrlParser', true)
+mongoose.set('useCreateIndex', true)
+mongoose.set('useFindAndModify', false);
 
 var app = express();
 var router = express.Router();
@@ -55,24 +59,39 @@ router.param('url', (req, res, next) => {
 //==============================================
 
 app.use('/', router);
+
 router.route('/users')
-  .get(users.getUsers)
+  .get(auth.adminRequired, users.getUsers)
   .post(users.createUser);
 router.route('/users/:id')
-  .get(users.getUserById)
-  .put(users.updateUser)
-  .delete(users.deleteUser);
+  .get(auth.adminRequired, users.getUserById)
+  .put(auth.loginRequired, auth.verifyUser, users.updateUser)
+  .delete(auth.loginRequired, auth.verifyUser, users.deleteUser);
+
 router.route('/resources')
   .get(resources.getResources)
-  .post(resources.createResource);
+  .post(auth.adminRequired, resources.createResource);
 router.route('/resources/books')
   .get(resources.getBooks);
 router.route('/resources/courses')
   .get(resources.getCourses);
 router.route('/resources/:id')
   .get(resources.getResourceById)
-  .put(resources.updateResource)
-  .delete(resources.deleteResource);
+  .put(auth.adminRequired, resources.updateResource)
+  .post(auth.superAdminRequired, resources.approveResource)
+  .delete(auth.superAdminRequired, resources.deleteResource);
+router.route('/resources/:id/other-resources')
+  .get(resources.getOtherResources);
+
+router.route('/admins')
+  .post(auth.superAdminRequired, admins.createAdmin);
+
+router.route('/admins/resources')
+  .get(auth.superAdminRequired, resources.getUnapprovedResources);
+
+router.route('/auth/token')
+  .post(auth.loginUser)
+  .put(auth.logoutUser);
 
 // TODO: Add or update comment routes
 
