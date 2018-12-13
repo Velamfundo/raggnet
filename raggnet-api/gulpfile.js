@@ -2,26 +2,27 @@
 // run <node raggnet-api.js> when one of my files change
 
 const gulp = require('gulp');
-const browserSync = require('browser-sync');
+const nodemon = require('gulp-nodemon');
+const exec = require('child_process').exec;
 
+function start_db() {
+  exec('mongod -f ./models/mongod.conf', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
+}
+
+// start our server and listen for changes
 function start() {
-  return browserSync.init({
-    server: 'build',
-    open: false,
-    port: 3000
+  // configure nodemon
+  nodemon({
+    script: 'raggnet-api.js',
+    watch: ["raggnet-api.js", "./**/*.js"],
+    ext: 'js'
+  }).on('restart', () => {
+    console.log('restarted!!!');
   });
 }
 
-function serve() {
-  return browserSync.init({
-    server: 'build',
-    open: false,
-    port: 5000
-  });
-}
-
-function watch() {
-  gulp.watch('raggnet-api/**/*.js', start);
-}
-
-gulp.task('default', gulp.parallel(start, serve, watch));
+gulp.task('default', gulp.parallel(start_db, start));
+gulp.task('start', start);
