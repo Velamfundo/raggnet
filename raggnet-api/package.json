@@ -7,13 +7,16 @@
     "build": "npm install",
     "start": "node raggnet-api.js",
     "dev": "mongod -f ./models/mongod.conf & node raggnet-api.js",
-    "mongo-kill": "killall mongod"
+    "mongo-kill": "killall mongod",
+    "node-kill": "kill -15 13299"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "debug": "~2.6.9",
     "express": "^4.16.4",
+    "gulp": "^4.0.0",
+    "gulp-exec": "^3.0.2",
     "jwt-simple": "^0.5.5",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.12",
@@ -24,6 +27,8 @@
   },
   "description": "raggnet-api",
   "main": "raggnet-api.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-nodemon": "^2.4.2"
+  },
   "license": "UNLICENSED"
 }
