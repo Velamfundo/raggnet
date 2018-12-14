@@ -1,10 +1,7 @@
 *.txt
 *.docx
 .DS_Store
+node_modules/
 package-lock.json
-node_modules
-./*/node_modules
-./raggnet_api/node_modules
-./raggnet_frontend/node_modules
-./raggnet-api/package-lock.json
-./raggnet-frontend/package-lock.json
+/**/config.js
+raggnet-api/models/mongod.conf
