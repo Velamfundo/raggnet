@@ -10,8 +10,7 @@ const users = require('./controllers/users');
 const resources = require('./controllers/resources');
 const admins = require('./controllers/admins')
 
-mongoose.connect(config.dbUrl)
-mongoose.set('useNewUrlParser', true)
+mongoose.connect(config.dbUrl, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true)
 mongoose.set('useFindAndModify', false);
 
