@@ -1,0 +1,5 @@
+@media screen and (max-width: 48rem) {
+  .container {
+    width: 95%;
+  }
+}
