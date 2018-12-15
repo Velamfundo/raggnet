@@ -7,7 +7,9 @@ function createResource(req, res, next) {
       resourceData[property] = req.body[property];
     }
   }
-  
+
+  console.log(resourceData);
+
   var newResource = new Resource(resourceData);
   newResource.save((err, resource) => {
     if (err) return next(err);
