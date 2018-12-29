@@ -65,14 +65,16 @@ var forYouClicked = false;
 
 function extractArrayItems(arr) {
   // arr items must be of type String
-  if (arr.length === 0) {
+  var len = arr.length;
+
+  if (len === 0) {
     return '';
-  } else if (arr.length === 1) {
+  } else if (len === 1) {
     return arr[0];
-  } else if (arr.length === 2) {
+  } else if (len === 2) {
     return arr[0] + ' & ' + arr[1];
   } else {
-    return arr.splice(0, 1) + ', ' + extractArrayItems(arr);
+    return arr[0] + ', ' + extractArrayItems(arr.slice(1, len));
   }
 }
 
