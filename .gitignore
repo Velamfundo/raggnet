@@ -5,3 +5,4 @@ node_modules/
 package-lock.json
 /**/config.js
 raggnet-api/models/mongod.conf
+raggnet-frontend/js/data.js
