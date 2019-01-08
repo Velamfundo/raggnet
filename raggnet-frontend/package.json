@@ -1,0 +1,26 @@
+{
+  "name": "raggnet-frontend",
+  "version": "0.0.0",
+  "author": "Mthabisi Ndlovu <mthabisi.cody.ndlovu@gmail.com>",
+  "private": true,
+  "scripts": {
+    "build": "npm install",
+    "dev": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "gulp": "^4.0.0",
+    "gulp-exec": "^3.0.2",
+    "jwt-simple": "^0.5.1",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0",
+    "require": "^2.4.20",
+    "uglify-js": "^3.4.9"
+  },
+  "description": "raggnet-frontend",
+  "devDependencies": {
+    "gulp-nodemon": "^2.4.2"
+  },
+  "license": "UNLICENSED"
+}
