@@ -1,6 +1,4 @@
-var exploreBtn = document.getElementById('explore');
-var explorePop = document.getElementsByClassName('explorePop')[0];
-
+// import {books, courses, interests} from './data';
 var CS61a = {
   'name': 'CS61A',
   'category': 'Programming',
@@ -54,14 +52,80 @@ var CS110 = {
   'featured': true
 }
 
-var interests = ['JavaScript']
+var PWAs = {
+  'name': 'PWAs',
+  'authors': ['Samantha', 'Sam'],
+  'skills': ['JavaScript', 'HTML', 'CSS'],
+  'category': 'Web Development',
+  'institution': 'Google',
+  'type': 'course',
+  'price': 'Free',
+  'inst_shortname': 'google'
+}
 
-var courses = [CS50, CS61a, CS61b, CS51, CS110];
-var featuredDiv = document.getElementById("featured");
+var SICP = {
+  'name': 'SICP',
+  'authors': ['Sussman', 'Abelsson'],
+  'skills': ['Scheme', 'Lisp'],
+  'category': 'Programming',
+  'institution': 'MIT',
+  'type': 'book',
+  'price': 'Free',
+  'inst_shortname': 'mit'
+}
+
+var books = [SICP];
+var interests = ['JavaScript'];
+var courses = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
+
+var exploreBtn = document.getElementById('explore');
+var explorePop = document.getElementsByClassName('explorePop')[0];
+var moocsBtn = document.getElementById('moocs');
+var booksBtn = document.getElementById('ebooks');
+var moreBtn = document.getElementById('more');
+// var body = document.getElementsByTagName('body');
+var footer = document.getElementsByTagName('footer')[0];
+
+var resourceDiv = document.getElementsByClassName("resource")[0];
 
 var forYouBtn = document.getElementById('foryou');
 var exploreBtn = document.getElementById('explore');
 var forYouClicked = false;
+
+var Categories = {
+  'Online courses': ['Live', 'Certified', 'Sites'],
+  'To do': ['Libraries', 'Meetups', 'Forums', 'Conferences', 'Careers'],
+  'eBooks': ['Read', 'Free', 'Order'],
+}
+
+var categories = '';
+
+Object.keys(Categories).forEach(category => {
+  var subCats = Categories[category];
+  categories += '<div class="category">' + category + '</div><ul>';
+
+  for (var i = 0; i < subCats.length;) {
+    categories += '<li><button class="btn">' + subCats[i] + '</button></li>';
+
+    if (++i < subCats.length)  {
+      categories += '<hr>';
+    }
+  }
+  subCats.forEach(subcat => {
+
+  })
+  categories += '</ul>';
+})
+
+var containerDiv = document.getElementsByClassName('container')[0];
+var headerDiv = document.getElementsByTagName('header')[0];
+var menuBtn = document.getElementById('menu');
+var backBtn = document.createElement('button');
+backBtn.className = 'btn';
+backBtn.id = 'back';
+backBtn.innerHTML = 'Back';
+
+var search = document.getElementById('search');
 
 function extractArrayItems(arr) {
   // arr items must be of type String
@@ -85,7 +149,7 @@ function forE(collection, callback) {
 }
 
 function addResources(arr) {
-  featuredDiv.innerHTML = '';
+  resourceDiv.innerHTML = '';
   arr.forEach(res => {
     var skills = extractArrayItems(res['skills']);
     var authors = extractArrayItems(res['authors']);
@@ -99,7 +163,7 @@ function addResources(arr) {
     var bodyDiv = document.createElement("div");
     bodyDiv.className = 'body';
 
-    featuredDiv.appendChild(widget);
+    resourceDiv.appendChild(widget);
     widget.appendChild(headerDiv);
     widget.appendChild(bodyDiv);
 
@@ -111,6 +175,8 @@ function addResources(arr) {
 }
 
 function addFeatured() {
+  resourceDiv.id = 'featured';
+  search.value = 'Try courses and free eBooks';
   var featured = [];
   courses.forEach(course => {
     if (course['featured']) {
@@ -121,6 +187,8 @@ function addFeatured() {
 }
 
 function addForYou() {
+  resourceDiv.id = 'targeted';
+  search.value = 'For you';
   var forYou = [];
   courses.forEach(course => {
     var skills = extractArrayItems(course['skills']);
@@ -151,7 +219,6 @@ forYouBtn.onclick = function() {
     addForYou();
   }
 }
-window.onload = addFeatured;
 
 exploreBtn.onclick = function() {
   if (!forYouClicked) {
@@ -171,3 +238,51 @@ window.onclick = function() {
 window.onscroll = function() {
   explorePop.style.display = "none";
 }
+
+moocsBtn.onclick = function() {
+  resourceDiv.id = 'courses'
+  search.value = 'Online courses'
+  addResources(courses);
+}
+
+booksBtn.onclick = function() {
+  resourceDiv.id = 'books';
+  search.value = 'Books';
+  addResources(books);
+}
+
+moreBtn.onclick = function() {
+  headerDiv.innerHTML = '';
+  headerDiv.className = 'header-more';
+  footer.style.display = 'none';
+  search.value = 'Categories';
+
+  headerDiv.appendChild(backBtn);
+  headerDiv.appendChild(search);
+
+  containerDiv.style.marginTop = '12%';
+  containerDiv.innerHTML = categories;
+}
+
+backBtn.onclick = function() {
+  headerDiv.innerHTML = '';
+  containerDiv.innerHTML = '';
+
+  switch (resourceDiv.id) {
+    case 'courses':
+      search.value = 'Online courses';
+      break;
+    case 'books':
+      search.value = 'Books';
+      break;
+    default:
+      search.value = 'Try courses and free eBooks';
+  }
+
+  headerDiv.appendChild(menuBtn);
+  headerDiv.appendChild(search);
+  containerDiv.appendChild(resourceDiv);
+  footer.style.display = 'block';
+}
+
+window.onload = addFeatured;
