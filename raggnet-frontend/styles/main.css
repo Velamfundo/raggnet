@@ -62,6 +62,14 @@ footer .button {
   background: #a1020e;
 }
 
+.google {
+  background: #0a3;
+}
+
+.mit {
+  background: purple;
+}
+
 .resource-widget .header {
   color: #fff;
   padding: 5%;
@@ -145,6 +153,18 @@ header {
   padding: 1%;
 }
 
+.header-more {
+  width: 100%;
+  top: 0;
+  left: 0;
+  border: 0;
+  border-radius: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 3px #888;
+  padding: 1.5%;
+}
+
 .explorePop {
   display: none;
   position: fixed;
@@ -167,6 +187,18 @@ header {
 
 .container {
   margin-bottom: 24%;
+  color: #000;
+  font-size: 13px;
+}
+
+.container .btn {
+  font-size: inherit;
+  color: inherit;
+}
+
+.category {
+  padding-left: 5%;
+  font-weight: 550;
 }
 
 .menu {
@@ -181,5 +213,17 @@ header {
   width: 36px;
   margin-top: 3px;
   margin-right: 5%;
+}
 
+ul {
+  list-style: none;
+}
+
+ul hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
+
+.btn .icon {
 }
