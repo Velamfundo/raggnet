@@ -1,12 +1,14 @@
-// import {books, courses, interests} from './data';
+// TODO: redefine addResources to match db results
+// OR: redesign schemas to match addResources architecture
+// TODO: Design the display architecture of resources
 var CS61a = {
   'name': 'CS61A',
   'category': 'Programming',
   'skills': ['Python', 'Scheme'],
   'authors': ['John Denero'],
   'institution': 'UC Berkeley',
-  'inst_shortname': 'berkeley',
-  'price': 'Free',
+  'instShortName': 'berkeley',
+  'price': 100,
   'featured': true
 }
 
@@ -16,8 +18,8 @@ var CS61b = {
   'skills': ['Java'],
   'authors': ['Paul Hilfinger'],
   'institution': 'UC Berkeley',
-  'inst_shortname': 'berkeley',
-  'price': 'Free'
+  'instShortName': 'berkeley',
+  'price': 100
 }
 
 var CS50 = {
@@ -26,8 +28,8 @@ var CS50 = {
   'skills': ['C', 'Python', 'JavaScript'],
   'authors': ['David J. Malan'],
   'institution': 'Harvard University',
-  'inst_shortname': 'harvard',
-  'price': 'Free',
+  'instShortName': 'harvard',
+  'price': 50,
   'featured': true
 }
 
@@ -37,8 +39,8 @@ var CS51 = {
   'skills': ['JavaScript', 'Node.js'],
   'authors': ['David J. Malan'],
   'institution': 'Harvard University',
-  'inst_shortname': 'harvard',
-  'price': 'Free'
+  'instShortName': 'harvard',
+  'price': 51
 }
 
 var CS110 = {
@@ -46,9 +48,9 @@ var CS110 = {
   'category': 'Algorithms & Design',
   'skills': ['Java'],
   'authors': ['Paul Blikstein'],
-  'inst_shortname': 'stanford',
+  'instShortName': 'stanford',
   'institution': 'Stanford University',
-  'price': 'Free',
+  'price': 0,
   'featured': true
 }
 
@@ -59,8 +61,8 @@ var PWAs = {
   'category': 'Web Development',
   'institution': 'Google',
   'type': 'course',
-  'price': 'Free',
-  'inst_shortname': 'google'
+  'price': 25.5,
+  'instShortName': 'google'
 }
 
 var SICP = {
@@ -70,13 +72,13 @@ var SICP = {
   'category': 'Programming',
   'institution': 'MIT',
   'type': 'book',
-  'price': 'Free',
-  'inst_shortname': 'mit'
+  'price': 14,
+  'instShortName': 'mit'
 }
 
-var books = [SICP];
+var ebooks = [SICP];
 var interests = ['JavaScript'];
-var courses = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
+var moocs = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
 
 var exploreBtn = document.getElementById('explore');
 var explorePop = document.getElementsByClassName('explorePop')[0];
@@ -111,9 +113,6 @@ Object.keys(Categories).forEach(category => {
       categories += '<hr>';
     }
   }
-  subCats.forEach(subcat => {
-
-  })
   categories += '</ul>';
 })
 
@@ -129,16 +128,18 @@ var search = document.getElementById('search');
 
 function extractArrayItems(arr) {
   // arr items must be of type String
-  var len = arr.length;
-
-  if (len === 0) {
-    return '';
-  } else if (len === 1) {
-    return arr[0];
-  } else if (len === 2) {
-    return arr[0] + ' & ' + arr[1];
-  } else {
-    return arr[0] + ', ' + extractArrayItems(arr.slice(1, len));
+  switch (arr.length) {
+    case 0:
+      return '';
+      break;
+    case 1:
+      return arr[0];
+      break;
+    case 2:
+      return arr[0] + ' & ' + arr[1];
+      break;
+    default:
+      return arr[0] + ', ' + extractArrayItems(arr.slice(1, arr.length));
   }
 }
 
@@ -151,15 +152,36 @@ function forE(collection, callback) {
 function addResources(arr) {
   resourceDiv.innerHTML = '';
   arr.forEach(res => {
-    var skills = extractArrayItems(res['skills']);
-    var authors = extractArrayItems(res['authors']);
+    var skills = (res.skills) ? 'Learn ' + extractArrayItems(res.skills): '';
+    var authors = extractArrayItems(res.authors);
+    var price = (res.price === 0) ? 'Free': '$' + res.price;
 
     var widget = document.createElement("div");
     widget.className = 'resource-widget';
 
+    //headerDiv
     var headerDiv = document.createElement("div");
-    headerDiv.className = 'header ' + res['inst_shortname'];
+    headerDiv.className = 'header ' + res.instShortName;
+    //headDiv
+    var headDiv = document.createElement("div");
+    headDiv.className = 'head';
+    headDiv.innerHTML = '<div id="category">' + res.category + '</div>';
+    headDiv.innerHTML += '<div id="notify"></div>';
+    //mainDiv
+    var mainDiv = document.createElement("div");
+    mainDiv.className = 'main';
+    mainDiv.innerHTML = '<h1>' + res.name + '</h1>';
+    mainDiv.innerHTML += authors + ', ' + res.institution;
+    //footDiv
+    var footDiv = document.createElement("div");
+    footDiv.className = 'foot';
+    footDiv.innerHTML = '<div id="price">' + price + '</div>';
 
+    headerDiv.appendChild(headDiv);
+    headerDiv.appendChild(mainDiv);
+    headerDiv.appendChild(footDiv);
+
+    //bodyDiv
     var bodyDiv = document.createElement("div");
     bodyDiv.className = 'body';
 
@@ -167,19 +189,19 @@ function addResources(arr) {
     widget.appendChild(headerDiv);
     widget.appendChild(bodyDiv);
 
-    headerDiv.innerHTML = '<h1>' + res['name'] + '</h1>';
-    bodyDiv.innerHTML = res['category'] + ': ' + skills + '<br>';
-    bodyDiv.innerHTML += authors + ', ' + res['institution'] + '<br>';
-    bodyDiv.innerHTML += res['price'];
+    bodyDiv.innerHTML = skills + '<br>';
+    if (res.prerequisites && (res.prerequisites.length > 0)) {
+      bodyDiv.innerHTML += 'Prerequisites: ' + extractArrayItems(res.prerequisites);
+    }
   });
 }
 
 function addFeatured() {
   resourceDiv.id = 'featured';
-  search.value = 'Try courses and free eBooks';
+  search.value = 'Featured';
   var featured = [];
-  courses.forEach(course => {
-    if (course['featured']) {
+  moocs.forEach(course => {
+    if (course.featured) {
       featured.push(course);
     }
   });
@@ -190,8 +212,8 @@ function addForYou() {
   resourceDiv.id = 'targeted';
   search.value = 'For you';
   var forYou = [];
-  courses.forEach(course => {
-    var skills = extractArrayItems(course['skills']);
+  moocs.forEach(course => {
+    var skills = extractArrayItems(course.skills);
     for (var i = 0; i < interests.length; i++) {
       if (skills.indexOf(interests[i]) > -1) {
         forYou.push(course);
@@ -240,15 +262,33 @@ window.onscroll = function() {
 }
 
 moocsBtn.onclick = function() {
-  resourceDiv.id = 'courses'
-  search.value = 'Online courses'
-  addResources(courses);
+  resourceDiv.id = 'courses';
+  search.value = 'Online courses';
+  fetch('/moocs')
+    .then(res => {
+      return res.json();
+    })
+    .then(courses => {
+      addResources(moocs); //courses
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 booksBtn.onclick = function() {
   resourceDiv.id = 'books';
   search.value = 'Books';
-  addResources(books);
+  fetch('/books')
+    .then(res => {
+      return res.json();
+    })
+    .then(books => {
+      addResources(ebooks);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 moreBtn.onclick = function() {
