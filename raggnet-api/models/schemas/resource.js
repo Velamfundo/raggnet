@@ -12,7 +12,7 @@ var resourceSchema = new Schema(
     platform: String,
     prerequisites: [String],
     tools: [String],
-    price: Number, // check type
+    price: {type: Number, required: true}, // check type
     isOffline: Boolean,
     comments: [ObjectId],
     otherResources: [{type: ObjectId, ref: 'Resource'}],
@@ -20,6 +20,10 @@ var resourceSchema = new Schema(
     startDate: Date,
     endDate: Date,
     approvedDate: Date,
+    instShortName: {type: String, required: true},
+    shortName: {type: String, required: true},
+    category: {type: String, required: true},
+    skills: [{type: String, required: true}]
   }
 );
 
