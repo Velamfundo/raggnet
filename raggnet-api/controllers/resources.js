@@ -8,8 +8,6 @@ function createResource(req, res, next) {
     }
   }
 
-  console.log(resourceData);
-
   var newResource = new Resource(resourceData);
   newResource.save((err, resource) => {
     if (err) return next(err);
@@ -79,14 +77,16 @@ function updateResource(req, res, next) {
       }
     }
 
-    if (req.body.otherResources.length === 0) {
-      resource.otherResources = undefined;
-    } else if (typeof req.body.otherResources === 'string') {
-      resource.otherResources.push(req.body.otherResources);
-    } else {
-      req.body.otherResources.forEach(other => {
-        resource.otherResources.push(other)
-      })
+    if (req.body.otherResources) {
+      if(req.body.otherResources.length === 0) {
+        resource.otherResources = undefined;
+      } else if (typeof req.body.otherResources === 'string') {
+        resource.otherResources.push(req.body.otherResources);
+      } else {
+        req.body.otherResources.forEach(other => {
+          resource.otherResources.push(other)
+        })
+      }
     }
 
     if (resource.approvedDate) {
