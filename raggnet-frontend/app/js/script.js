@@ -269,7 +269,7 @@ moocsBtn.onclick = function() {
       return res.json();
     })
     .then(courses => {
-      addResources(moocs); //courses
+      addResources(courses); //courses
     })
     .catch(err => {
       console.log(err);
@@ -284,7 +284,7 @@ booksBtn.onclick = function() {
       return res.json();
     })
     .then(books => {
-      addResources(ebooks);
+      addResources(books);
     })
     .catch(err => {
       console.log(err);
