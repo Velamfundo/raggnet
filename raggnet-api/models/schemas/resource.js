@@ -23,14 +23,17 @@ var resourceSchema = new Schema(
     instShortName: {type: String, required: true},
     shortName: {type: String, required: true},
     category: {type: String, required: true},
-    skills: [{type: String, required: true}]
+    skills: [{type: String, required: true}],
+    featured: Boolean
   }
 );
 
 resourceSchema.pre('save', function(callback) {
   // ensure url starts with http://, https://, ftp://
-  if (this.url && !(/^((https?)|(ftp)):\/\/.+/.test(this.url)))
+  if (this.url && !(/^((https?)|(ftp)):\/\/.+/.test(this.url))) {
     this.url = 'http://' + this.url;
+  }
+  this.instShortName = this.instShortName.toLowerCase();
   callback();
 });
 
