@@ -149,6 +149,18 @@ function forE(collection, callback) {
   }
 }
 
+function notify(res) {
+  var now = Date.parse(new Date());
+  var thirtyDays = 2592000000;
+  if (res.startDate <= now && res.endDate >= now) {
+    return 'Happening now!';
+  } else if ((now - Date.parse(res.approvedDate)) <= thirtyDays) {
+    return 'New!';
+  } else {
+    return '';
+  }
+}
+
 function addResources(arr) {
   resourceDiv.innerHTML = '';
   arr.forEach(res => {
@@ -166,7 +178,7 @@ function addResources(arr) {
     var headDiv = document.createElement("div");
     headDiv.className = 'head';
     headDiv.innerHTML = '<div id="category">' + res.category + '</div>';
-    headDiv.innerHTML += '<div id="notify"></div>';
+    headDiv.innerHTML += '<div id="notify">' + notify(res) + '</div>';
     //mainDiv
     var mainDiv = document.createElement("div");
     mainDiv.className = 'main';
