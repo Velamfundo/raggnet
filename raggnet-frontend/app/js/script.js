@@ -76,7 +76,30 @@ var SICP = {
   'instShortName': 'mit'
 }
 
-var ebooks = [SICP];
+var books, courses;
+
+fetch('/books')
+  .then(res => {
+    return res.json();
+  })
+  .then(bks => {
+    books = bks;
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+fetch('/moocs')
+  .then(res => {
+    return res.json();
+  })
+  .then(moocs => {
+    courses = moocs;
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
 var interests = ['JavaScript'];
 var moocs = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
 
@@ -224,7 +247,7 @@ function addForYou() {
   resourceDiv.id = 'targeted';
   search.value = 'For you';
   var forYou = [];
-  moocs.forEach(course => {
+  courses.forEach(course => {
     var skills = extractArrayItems(course.skills);
     for (var i = 0; i < interests.length; i++) {
       if (skills.indexOf(interests[i]) > -1) {
@@ -276,31 +299,13 @@ window.onscroll = function() {
 moocsBtn.onclick = function() {
   resourceDiv.id = 'courses';
   search.value = 'Online courses';
-  fetch('/moocs')
-    .then(res => {
-      return res.json();
-    })
-    .then(courses => {
-      addResources(courses); //courses
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  addResources(courses);
 }
 
 booksBtn.onclick = function() {
   resourceDiv.id = 'books';
   search.value = 'Books';
-  fetch('/books')
-    .then(res => {
-      return res.json();
-    })
-    .then(books => {
-      addResources(books);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  addResources(books);
 }
 
 moreBtn.onclick = function() {
