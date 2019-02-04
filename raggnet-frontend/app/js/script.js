@@ -170,8 +170,8 @@ function addResources(arr) {
     //mainDiv
     var mainDiv = document.createElement("div");
     mainDiv.className = 'main';
-    mainDiv.innerHTML = '<h1>' + res.name + '</h1>';
-    mainDiv.innerHTML += authors + ', ' + res.institution;
+    mainDiv.innerHTML = '<span id="name">' + res.name + '</span> <br>';
+    mainDiv.innerHTML += authors + ', <br>' + res.institution;
     //footDiv
     var footDiv = document.createElement("div");
     footDiv.className = 'foot';

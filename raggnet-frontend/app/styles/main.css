@@ -48,6 +48,7 @@ footer .button {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 3%;
+  width: 94%;
 }
 
 .berkeley {
@@ -71,17 +72,23 @@ footer .button {
 }
 
 .resource-widget .header {
+  float: left;
+  width: 100%;
   color: #fff;
-  padding: 5%;
   text-align: center;
+  border-radius: 8px 8px 0px 0px;
+  box-sizing: border-box;
+  box-shadow: 0 -2px 3px #888;
 }
 
 .resource-widget .body {
+  clear: both;
   padding: 2.5%;
   border: 1px #dfe3e8 solid;
   border-top: 0;
   font-weight: 300;
   font-size: 14px;
+  border-radius: 0px 0px 8px 8px;
 }
 
 @media screen and (max-width: 15rem) {
@@ -223,4 +230,51 @@ ul hr {
   border: 0;
   border-top: 1px solid #eee;
   width: 100%;
+}
+
+.head {
+  float: left;
+  width: 100%;
+  margin-bottom: 4%;
+}
+
+#category {
+  float: left;
+  width: auto;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  font-size: 80%;
+  padding: 0.5%;
+  margin-top: 3%;
+  margin-left: 3%;
+}
+
+.main {
+  clear: both;
+  margin-bottom: 4%;
+  padding: 5%;
+}
+
+.foot {
+  float: right;
+  width: 100%;
+}
+
+#price {
+  float: right;
+  width: auto;
+  margin-bottom: 3%;
+  margin-right: 3%;
+}
+
+#notify {
+  float: right;
+  width: auto;
+  margin-right: 3%;
+  margin-top: 3%;
+}
+
+#name {
+  font-size: 145%;
+  font-weight: normal;
 }
