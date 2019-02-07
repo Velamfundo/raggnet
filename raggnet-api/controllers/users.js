@@ -1,4 +1,5 @@
 const User = require('../models/schemas/user');
+const Resource = require('../models/schemas/resource');
 
 function createUser(req, res, next) {
   var userData = req.body;
@@ -65,6 +66,20 @@ function deleteUser(req, res, next) {
   });
 }
 
+function handPickResources(req, res, next) {
+  User.findById(req.params.id, {interests: 1, '_id': 0}, (err, user) => {
+    if (err) return next(err);
+    Resource.find({$or: [
+      {skills: {$in: user.interests}},
+      {prerequisites: {$in: user.interests}},
+      {category: {$in: user.interests}}
+    ]}, (err, picked) => {
+      if (err) return next(err);
+      return res.json(picked);
+    });
+  });
+}
+
 // review will be added to update funcs of books and courses
 
 module.exports = {
@@ -73,4 +88,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  handPickResources,
 };

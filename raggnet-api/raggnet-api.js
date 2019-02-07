@@ -66,6 +66,8 @@ router.route('/users/:id')
   .get(auth.adminRequired, users.getUserById)
   .put(auth.loginRequired, auth.verifyUser, users.updateUser)
   .delete(auth.loginRequired, auth.verifyUser, users.deleteUser);
+router.route('/users/:id/foryou')
+  .get(auth.loginRequired, auth.verifyUser, users.handPickResources);
 
 router.route('/resources')
   .get(resources.getResources)
