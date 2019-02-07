@@ -76,29 +76,18 @@ var SICP = {
   'instShortName': 'mit'
 }
 
-var books, courses;
-
-fetch('/books')
+function updateView(route) {
+  return fetch(route)
   .then(res => {
     return res.json();
   })
-  .then(bks => {
-    books = bks;
+  .then(resources => {
+    addResources(resources);
   })
   .catch(err => {
     console.error(err);
   });
-
-fetch('/moocs')
-  .then(res => {
-    return res.json();
-  })
-  .then(moocs => {
-    courses = moocs;
-  })
-  .catch(err => {
-    console.error(err);
-  });
+}
 
 var interests = ['JavaScript'];
 var moocs = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
@@ -243,15 +232,16 @@ function addFeatured() {
   addResources(featured);
 }
 
+// TODO: handpick both books and courses
 function addForYou() {
   resourceDiv.id = 'targeted';
   search.value = 'For you';
   var forYou = [];
-  courses.forEach(course => {
-    var skills = extractArrayItems(course.skills);
+  resources.forEach(res => {
+    var skills = extractArrayItems(res.skills);
     for (var i = 0; i < interests.length; i++) {
       if (skills.indexOf(interests[i]) > -1) {
-        forYou.push(course);
+        forYou.push(res);
         i = interests.length;
       }
     }
@@ -299,13 +289,13 @@ window.onscroll = function() {
 moocsBtn.onclick = function() {
   resourceDiv.id = 'courses';
   search.value = 'Online courses';
-  addResources(courses);
+  updateView('/moocs');
 }
 
 booksBtn.onclick = function() {
   resourceDiv.id = 'books';
   search.value = 'Books';
-  addResources(books);
+  updateView('/books');
 }
 
 moreBtn.onclick = function() {
