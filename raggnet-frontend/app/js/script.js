@@ -1,3 +1,32 @@
+function page(url) {
+  this.url = url;
+  this.render = function() {
+    loadView(this.url);
+  }
+};
+
+var Books = new page('/books');
+var Moocs = new page('/moocs');
+var ForYou = new page('/foryou');
+var More = new page('/more');
+var Home = new page('/');
+Home.render = addFeatured;
+More.render = loadMoreView;
+
+const routes = {
+  '/': Home,
+  '/books': Books,
+  '/moocs': Moocs,
+  '/foryou': ForYou,
+  '/more': More
+};
+
+function router() {
+  var url = window.location.hash.slice(1).toLowerCase() || '/';
+  var page = routes[url];
+  page.render();
+}
+
 // TODO: redefine addResources to match db results
 // OR: redesign schemas to match addResources architecture
 // TODO: Design the display architecture of resources
@@ -76,21 +105,48 @@ var SICP = {
   'instShortName': 'mit'
 }
 
-function updateView(route) {
+function loadView(route) {
+  switch (route) {
+    case '/books':
+      resourceDiv.id = 'books';
+      search.value = 'Books';
+      break;
+    case '/moocs':
+      resourceDiv.id = 'courses';
+      search.value = 'Online Courses';
+      break;
+    default:
+      resourceDiv.id = search.value = '';
+  }
+
   return fetch(route)
   .then(res => {
     return res.json();
   })
   .then(resources => {
     addResources(resources);
+    console.log(resources);
   })
   .catch(err => {
     console.error(err);
   });
 }
 
+function loadMoreView() {
+  headerDiv.innerHTML = '';
+  headerDiv.className = 'header-more';
+  footer.style.display = 'none';
+  search.value = 'Categories';
+
+  headerDiv.appendChild(backBtn);
+  headerDiv.appendChild(search);
+
+  containerDiv.style.marginTop = '12%';
+  containerDiv.innerHTML = categories;
+}
+
 var interests = ['JavaScript'];
-var moocs = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
+var resources = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
 
 var exploreBtn = document.getElementById('explore');
 var explorePop = document.getElementsByClassName('explorePop')[0];
@@ -224,9 +280,9 @@ function addFeatured() {
   resourceDiv.id = 'featured';
   search.value = 'Featured';
   var featured = [];
-  moocs.forEach(course => {
-    if (course.featured) {
-      featured.push(course);
+  resources.forEach(res => {
+    if (res.featured) {
+      featured.push(res);
     }
   });
   addResources(featured);
@@ -287,28 +343,15 @@ window.onscroll = function() {
 }
 
 moocsBtn.onclick = function() {
-  resourceDiv.id = 'courses';
-  search.value = 'Online courses';
-  updateView('/moocs');
+  window.location.hash = '#/moocs';
 }
 
 booksBtn.onclick = function() {
-  resourceDiv.id = 'books';
-  search.value = 'Books';
-  updateView('/books');
+  window.location.hash = '#/books';
 }
 
 moreBtn.onclick = function() {
-  headerDiv.innerHTML = '';
-  headerDiv.className = 'header-more';
-  footer.style.display = 'none';
-  search.value = 'Categories';
-
-  headerDiv.appendChild(backBtn);
-  headerDiv.appendChild(search);
-
-  containerDiv.style.marginTop = '12%';
-  containerDiv.innerHTML = categories;
+  window.location.hash = '#/more';
 }
 
 backBtn.onclick = function() {
@@ -332,4 +375,5 @@ backBtn.onclick = function() {
   footer.style.display = 'block';
 }
 
-window.onload = addFeatured;
+window.onload = router;
+window.onhashchange = router;
