@@ -20,7 +20,7 @@ This app is not yet ready for production. It is only suitable to be viewed and t
 
 1. Clone this repository to your desktop by typing the following command in your terminal:
     ```
-    $ git clone https://www.github.com/codymndlovu/velamfundo/raggnet
+    $ git clone https://github.com/Velamfundo/raggnet.git
     ```
 
 2. Navigate to the root directory of the app:
