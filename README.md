@@ -24,7 +24,9 @@ This app is not yet ready for production. It is only suitable to be viewed and t
     ```
 
 2. Navigate to the root directory of the app:
-    ```cd ./raggnet```
+    ```
+    cd ./raggnet
+    ```
 
 3. From the app's root directory navigate to the backend directory and start the backend server and database by typing the following command in your terminal:
     ```
@@ -38,7 +40,7 @@ This app is not yet ready for production. It is only suitable to be viewed and t
     $ node server.js
     ```
 
-5. Open the app in your favorite browser by typing the url ```http://locahost:3001```.
+5. Open the app in your favorite browser by typing the url  `http://locahost:3001`.
 
 6. Open the developer options in your browser and view the application in device mode. The current
 version of the app is designed only for mobile devices with `max-width` of `15rem`.
