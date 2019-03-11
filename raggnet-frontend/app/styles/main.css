@@ -51,26 +51,6 @@ footer .button {
   width: 94%;
 }
 
-.berkeley {
-  background: #0000ff;
-}
-
-.stanford {
-  background: #b1040e;
-}
-
-.harvard {
-  background: #a1020e;
-}
-
-.google {
-  background: #0a3;
-}
-
-.mit {
-  background: purple;
-}
-
 .resource-widget .header {
   float: left;
   width: 100%;
