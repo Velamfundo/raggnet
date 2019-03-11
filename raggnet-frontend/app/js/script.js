@@ -1,3 +1,13 @@
+var colors = {'berkeley': '#0000ff',
+              'stanford': '#b1040e',
+              'harvard': '#a1020e',
+              'google': '#0a3',
+              'mit': 'purple',
+              'other': '#e0bc0f'
+            }
+
+var hash = '';
+
 function page(url) {
   this.url = url;
   this.render = function() {
@@ -12,6 +22,7 @@ var More = new page('/more');
 var Home = new page('/');
 Home.render = addFeatured;
 More.render = loadMoreView;
+ForYou.render = addForYou; // fetch handpicked resources from db
 
 const routes = {
   '/': Home,
@@ -22,9 +33,14 @@ const routes = {
 };
 
 function router() {
-  var url = window.location.hash.slice(1).toLowerCase() || '/';
-  var page = routes[url];
-  page.render();
+  if (hash === 'more') {
+    goBack();
+  } else {
+    var url = window.location.hash.slice(1).toLowerCase() || '/';
+    var page = routes[url];
+    page.render();
+  }
+  hash  = window.location.hash.slice(2) || '';
 }
 
 // TODO: redefine addResources to match db results
@@ -112,7 +128,7 @@ function loadView(route) {
       search.value = 'Books';
       break;
     case '/moocs':
-      resourceDiv.id = 'courses';
+      resourceDiv.id = 'moocs';
       search.value = 'Online Courses';
       break;
     default:
@@ -125,7 +141,6 @@ function loadView(route) {
   })
   .then(resources => {
     addResources(resources);
-    console.log(resources);
   })
   .catch(err => {
     console.error(err);
@@ -133,13 +148,9 @@ function loadView(route) {
 }
 
 function loadMoreView() {
-  headerDiv.innerHTML = '';
   headerDiv.className = 'header-more';
   footer.style.display = 'none';
   search.value = 'Categories';
-
-  headerDiv.appendChild(backBtn);
-  headerDiv.appendChild(search);
 
   containerDiv.style.marginTop = '12%';
   containerDiv.innerHTML = categories;
@@ -187,10 +198,6 @@ Object.keys(Categories).forEach(category => {
 var containerDiv = document.getElementsByClassName('container')[0];
 var headerDiv = document.getElementsByTagName('header')[0];
 var menuBtn = document.getElementById('menu');
-var backBtn = document.createElement('button');
-backBtn.className = 'btn';
-backBtn.id = 'back';
-backBtn.innerHTML = 'Back';
 
 var search = document.getElementById('search');
 
@@ -257,6 +264,12 @@ function addResources(arr) {
     footDiv.className = 'foot';
     footDiv.innerHTML = '<div id="price">' + price + '</div>';
 
+    if (colors[res.instShortName]) {
+      headerDiv.style.backgroundColor = colors[res.instShortName];
+    } else {
+      headerDiv.style.backgroundColor = colors.other;
+    }
+
     headerDiv.appendChild(headDiv);
     headerDiv.appendChild(mainDiv);
     headerDiv.appendChild(footDiv);
@@ -319,7 +332,7 @@ function toggleBtn() {
 forYouBtn.onclick = function() {
   if (!forYouClicked) {
     toggleBtn();
-    addForYou();
+    window.location.hash = '#/foryou';
   }
 }
 
@@ -328,7 +341,7 @@ exploreBtn.onclick = function() {
     explorePop.style.display = "block";
   } else {
     toggleBtn();
-    addFeatured();
+    window.location.hash = '';
   }
 }
 
@@ -354,12 +367,12 @@ moreBtn.onclick = function() {
   window.location.hash = '#/more';
 }
 
-backBtn.onclick = function() {
+function goBack() {
   headerDiv.innerHTML = '';
   containerDiv.innerHTML = '';
 
   switch (resourceDiv.id) {
-    case 'courses':
+    case 'moocs':
       search.value = 'Online courses';
       break;
     case 'books':
