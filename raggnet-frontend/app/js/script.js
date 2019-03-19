@@ -40,9 +40,8 @@ function router() {
 // TODO: Design the display architecture of resources
 var CS61a = {
   'name': 'CS61A',
-  'category': 'Programming',
-  'skills': ['Python', 'Scheme'],
-  'authors': ['John Denero'],
+  'tags': ['Programming', 'Python', 'Scheme'],
+  'author': 'John Denero',
   'institution': 'UC Berkeley',
   'instShortName': 'berkeley',
   'price': 100,
@@ -51,9 +50,8 @@ var CS61a = {
 
 var CS61b = {
   'name': 'CS61B',
-  'category': 'Data Structures',
-  'skills': ['Java'],
-  'authors': ['Paul Hilfinger'],
+  'tags': ['Data Structures', 'Java'],
+  'author': 'Paul Hilfinger',
   'institution': 'UC Berkeley',
   'instShortName': 'berkeley',
   'price': 100
@@ -61,9 +59,8 @@ var CS61b = {
 
 var CS50 = {
   'name': 'CS50',
-  'category': 'Programming',
-  'skills': ['C', 'Python', 'JavaScript'],
-  'authors': ['David J. Malan'],
+  'tags': ['Programming', 'C', 'Python', 'JavaScript'],
+  'author': 'David J. Malan',
   'institution': 'Harvard University',
   'instShortName': 'harvard',
   'price': 50,
@@ -72,9 +69,8 @@ var CS50 = {
 
 var CS51 = {
   'name': 'CS51',
-  'category': 'Programming',
-  'skills': ['JavaScript', 'Node.js'],
-  'authors': ['David J. Malan'],
+  'tags': ['JavaScript', 'Node.js', 'Programming'],
+  'author': 'David J. Malan',
   'institution': 'Harvard University',
   'instShortName': 'harvard',
   'price': 51
@@ -232,7 +228,7 @@ function addResources(arr) {
   resourceDiv.innerHTML = '';
   hsDiv.style.setProperty('--total', n);
   arr.forEach(res => {
-    var author = res.authors[0];
+    var author = res.author;
     var tags = res.tags;
 
     var cardDiv = document.createElement("div");
@@ -282,9 +278,9 @@ function addForYou() {
   search.value = 'For you';
   var forYou = [];
   resources.forEach(res => {
-    var skills = extractArrayItems(res.skills);
+    var tags = extractArrayItems(res.tags);
     for (var i = 0; i < interests.length; i++) {
-      if (skills.indexOf(interests[i]) > -1) {
+      if (tags.indexOf(interests[i]) > -1) {
         forYou.push(res);
         i = interests.length;
       }
