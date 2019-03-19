@@ -1,11 +1,3 @@
-var colors = {'berkeley': '#0000ff',
-              'stanford': '#b1040e',
-              'harvard': '#a1020e',
-              'google': '#0a3',
-              'mit': 'purple',
-              'other': '#e0bc0f'
-            }
-
 var hash = '';
 
 function page(url) {
@@ -90,9 +82,8 @@ var CS51 = {
 
 var CS110 = {
   'name': 'CS110',
-  'category': 'Algorithms & Design',
-  'skills': ['Java'],
-  'authors': ['Paul Blikstein'],
+  'tags': ['Java', 'Algorithms & Design'],
+  'author': 'Paul Blikstein',
   'instShortName': 'stanford',
   'institution': 'Stanford University',
   'price': 0,
@@ -101,9 +92,8 @@ var CS110 = {
 
 var PWAs = {
   'name': 'PWAs',
-  'authors': ['Samantha', 'Sam'],
-  'skills': ['JavaScript', 'HTML', 'CSS'],
-  'category': 'Web Development',
+  'author': 'Samantha Aguilera',
+  'tags': ['Web Development', 'JavaScript', 'HTML', 'CSS'],
   'institution': 'Google',
   'type': 'course',
   'price': 25.5,
@@ -112,9 +102,8 @@ var PWAs = {
 
 var SICP = {
   'name': 'SICP',
-  'authors': ['Sussman', 'Abelsson'],
-  'skills': ['Scheme', 'Lisp'],
-  'category': 'Programming',
+  'author': 'Jay Sussman',
+  'tags': ['Programming','Scheme', 'Lisp'],
   'institution': 'MIT',
   'type': 'book',
   'price': 14,
@@ -152,7 +141,7 @@ function loadMoreView() {
   footer.style.display = 'none';
   search.value = 'Categories';
 
-  containerDiv.style.marginTop = '12%';
+  containerDiv.style.marginTop = '20%';
   containerDiv.innerHTML = categories;
 }
 
@@ -237,56 +226,42 @@ function notify(res) {
 }
 
 function addResources(arr) {
+  var n = arr.length;
+  var hsDiv = document.createElement('div');
+  hsDiv.className = 'hs';
   resourceDiv.innerHTML = '';
+  hsDiv.style.setProperty('--total', n);
   arr.forEach(res => {
-    var skills = (res.skills) ? 'Learn ' + extractArrayItems(res.skills): '';
-    var authors = extractArrayItems(res.authors);
-    var price = (res.price === 0) ? 'Free': '$' + res.price;
+    var author = res.authors[0];
+    var tags = res.tags;
 
-    var widget = document.createElement("div");
-    widget.className = 'resource-widget';
+    var cardDiv = document.createElement("div");
+    cardDiv.className = 'card';
 
-    //headerDiv
-    var headerDiv = document.createElement("div");
-    headerDiv.className = 'header ' + res.instShortName;
-    //headDiv
-    var headDiv = document.createElement("div");
-    headDiv.className = 'head';
-    headDiv.innerHTML = '<div id="category">' + res.category + '</div>';
-    headDiv.innerHTML += '<div id="notify">' + notify(res) + '</div>';
-    //mainDiv
-    var mainDiv = document.createElement("div");
-    mainDiv.className = 'main';
-    mainDiv.innerHTML = '<span id="name">' + res.name + '</span> <br>';
-    mainDiv.innerHTML += authors + ', <br>' + res.institution;
-    //footDiv
-    var footDiv = document.createElement("div");
-    footDiv.className = 'foot';
-    footDiv.innerHTML = '<div id="price">' + price + '</div>';
+    cardDiv.innerHTML = '<h2>' + res.name + '</h2>';
 
-    if (colors[res.instShortName]) {
-      headerDiv.style.backgroundColor = colors[res.instShortName];
-    } else {
-      headerDiv.style.backgroundColor = colors.other;
-    }
+    var metaDiv = document.createElement('div');
+    metaDiv.className = 'resource-meta';
 
-    headerDiv.appendChild(headDiv);
-    headerDiv.appendChild(mainDiv);
-    headerDiv.appendChild(footDiv);
+    var authorDiv = document.createElement("div");
+    authorDiv.className = 'author';
+    authorDiv.innerHTML = '<span id="authored-by">Written by</span><br>' + author;
 
-    //bodyDiv
-    var bodyDiv = document.createElement("div");
-    bodyDiv.className = 'body';
+    var tagsDiv = document.createElement("div");
+    tagsDiv.className = 'tags';
 
-    resourceDiv.appendChild(widget);
-    widget.appendChild(headerDiv);
-    widget.appendChild(bodyDiv);
+    tags.forEach(tag => {
+      tagsDiv.innerHTML += '<div class="tag">' + tag + '</div>';
+    });
 
-    bodyDiv.innerHTML = skills + '<br>';
-    if (res.prerequisites && (res.prerequisites.length > 0)) {
-      bodyDiv.innerHTML += 'Prerequisites: ' + extractArrayItems(res.prerequisites);
-    }
+    cardDiv.style.backgroundColor = '#ff4500';
+
+    metaDiv.appendChild(authorDiv);
+    metaDiv.appendChild(tagsDiv);
+    cardDiv.appendChild(metaDiv);
+    hsDiv.appendChild(cardDiv);
   });
+  resourceDiv.appendChild(hsDiv);
 }
 
 function addFeatured() {
@@ -321,11 +296,11 @@ function addForYou() {
 function toggleBtn() {
   forYouClicked = !forYouClicked;
   if (forYouClicked) {
-    forYouBtn.style.color = '#0000ff';
+    forYouBtn.style.color = '#2364f3';
     exploreBtn.style.color = '#544948';
   } else {
     forYouBtn.style.color = '#544948';
-    exploreBtn.style.color = '#0000ff';
+    exploreBtn.style.color = '#2364f3';
   }
 }
 
@@ -370,6 +345,7 @@ moreBtn.onclick = function() {
 function goBack() {
   headerDiv.innerHTML = '';
   containerDiv.innerHTML = '';
+  containerDiv.style.marginTop = '';
 
   switch (resourceDiv.id) {
     case 'moocs':
