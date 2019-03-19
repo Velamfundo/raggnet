@@ -5,7 +5,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var resourceSchema = new Schema(
   {
     name: {type: String, required: true},
-    authors: [{type: String, required: true}],
+    author: {type: String, required: true},
     url: {type: String, required: true},
     type: {type: String, required: true}, // book or course
     institution: String,
@@ -22,9 +22,9 @@ var resourceSchema = new Schema(
     approvedDate: Date,
     instShortName: {type: String, required: true},
     shortName: {type: String, required: true},
-    category: {type: String, required: true},
-    skills: [{type: String, required: true}],
-    featured: Boolean
+    tags: [{type: String, required: true}],
+    featured: Boolean,
+    views: {type: Number, required: true},
   }
 );
 
