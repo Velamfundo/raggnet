@@ -231,8 +231,8 @@ ul hr {
 /* horizontal scroll container*/
 .hs {
   display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 10px repeat(var(--total), calc(94% - 40px)) 10px;
+  grid-gap: 5px;
+  grid-template-columns: 10px repeat(var(--total), calc(100% - 40px)) 10px;
   grid-template-rows: minmax(150px, 1fr);
   overflow: scroll;
   margin-top: 16%;
