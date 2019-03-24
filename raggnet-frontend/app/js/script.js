@@ -141,7 +141,6 @@ function loadMoreView() {
   containerDiv.innerHTML = categories;
 }
 
-var interests = ['JavaScript'];
 var resources = [CS50, CS61a, CS61b, CS51, CS110, PWAs];
 
 var exploreBtn = document.getElementById('explore');
@@ -149,7 +148,6 @@ var explorePop = document.getElementsByClassName('explorePop')[0];
 var moocsBtn = document.getElementById('moocs');
 var booksBtn = document.getElementById('ebooks');
 var moreBtn = document.getElementById('more');
-// var body = document.getElementsByTagName('body');
 var footer = document.getElementsByTagName('footer')[0];
 
 var resourceDiv = document.getElementsByClassName("resource")[0];
@@ -274,19 +272,45 @@ function addFeatured() {
 
 // TODO: handpick both books and courses
 function addForYou() {
-  resourceDiv.id = 'targeted';
-  search.value = 'For you';
-  var forYou = [];
-  resources.forEach(res => {
-    var tags = extractArrayItems(res.tags);
-    for (var i = 0; i < interests.length; i++) {
-      if (tags.indexOf(interests[i]) > -1) {
-        forYou.push(res);
-        i = interests.length;
-      }
-    }
-  });
-  addResources(forYou);
+  var token = localStorage.token || window.location.search.slice(1);
+  var interests;
+
+  if (!token) {
+    window.location = '/login';
+    return;
+  }
+
+  fetch('/user', {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    },
+    method: 'GET'
+  })
+  .then(res => {
+    if (!res.ok) {
+      window.location = '/login';
+      return;
+    } else return res.json().then(result => {
+      interests = result.interests;
+      resourceDiv.id = 'targeted';
+      search.value = 'For you';
+      var forYou = [];
+      resources.forEach(res => {
+        var tags = extractArrayItems(res.tags);
+        for (var i = 0; i < interests.length; i++) {
+          if (tags.indexOf(interests[i]) > -1) {
+            forYou.push(res);
+            i = interests.length;
+          }
+        }
+      });
+      addResources(forYou);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+  })
 }
 
 function toggleBtn() {
