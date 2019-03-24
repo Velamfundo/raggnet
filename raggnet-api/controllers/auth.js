@@ -93,9 +93,9 @@ function validateToken(req, res, next, c) {
 
 function verifyUser(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  //var admin = user.isAdmin || user.isSuperAdmin;
   User.findById(req.params.id, (err, user) => {
     if (err) return next(err);
+    if (user.isAdmin || user.isSuperAdmin) return next();
     if (!user) return res.status(400).send('No user with that ID.');
     if (!user.token || (user.token !== token)) {
       return res.status(403).send('User verification error!')
