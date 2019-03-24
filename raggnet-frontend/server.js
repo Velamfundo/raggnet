@@ -12,6 +12,7 @@ if (app.get('env') === 'development') app.locals.dev = true;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app', 'views')));
 
 app.use('/', routes);
 
