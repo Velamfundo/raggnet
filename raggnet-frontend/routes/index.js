@@ -1,3 +1,4 @@
+const auth = require('./auth');
 const express = require('express');
 const path = require('path');
 const request = require('request');
@@ -16,6 +17,19 @@ router.get('/books', (req, res, next) => {
 
 router.get('/moocs', (req, res, next) => {
   request.get(config.apiUrl + '/resources/courses').pipe(res);
+});
+
+router.get('/login', (req, res) => {
+  res.sendFile(absPath + 'app/views/login.html');
+});
+
+router.post('/login', (req, res, next) => {
+  request.post(config.apiUrl + '/auth/token', { form: req.body }).pipe(res);
+});
+
+// get user by id
+router.get('/user', auth.loginRequired, (req, res, next) => {
+  request.get(config.apiUrl + '/users/' + req.user.id + '?token=' + req.token).pipe(res);
 });
 
 module.exports = router;
