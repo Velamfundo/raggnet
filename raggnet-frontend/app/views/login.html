@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles/main.min.css">
+    <link rel="stylesheet" href="/styles/login.min.css">
+    <script src="/js/modernizr-custom.js"></script>
+    <meta charset="utf-8">
+    <title>Slyfox-Login</title>
+  </head>
+  <body>
+  <div class="all">
+    <form action="http://localhost:3001/login" method="post">
+      <div class="hidden" id="error-message"></div>
+      <input type="text" name="email" placeholder="Email">
+      <input type="password" name="password" placeholder="Password">
+      <button type="submit" class="submit-form" onclick="submitLogin()">
+        Login
+      </button>
+    </form>
+    <script src="/js/login.min.js"></script>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+form {
+    margin-left: 25%;
+    margin-right: auto;
+    float: left;
+    width: 50%;
+    margin-top: 50%;
+}
+
+form input {
+    border: 1px solid #888;
+    display: block;
+    float: left;
+    margin-bottom: 10%;
+    clear: both;
+}
+
+.submit-form {
+  margin-left: 30%;
+  background: #2364f3;
+  color: #fff;
+  border: 0;
+  padding: 5%;
+  border-radius: 3px;
+}
+
+#error-message {
+  visibility: hidden;
+  color: #f00;
+  font-size: small;
+}
