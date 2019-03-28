@@ -69,11 +69,7 @@ function deleteUser(req, res, next) {
 function handPickResources(req, res, next) {
   User.findById(req.params.id, {interests: 1, '_id': 0}, (err, user) => {
     if (err) return next(err);
-    Resource.find({$or: [
-      {skills: {$in: user.interests}},
-      {prerequisites: {$in: user.interests}},
-      {category: {$in: user.interests}}
-    ]}, (err, picked) => {
+    Resource.find({tags: {$in: user.interests}}, (err, picked) => {
       if (err) return next(err);
       return res.json(picked);
     });
