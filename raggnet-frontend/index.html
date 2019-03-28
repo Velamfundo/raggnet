@@ -2,28 +2,81 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles/main.min.css">
+    <link rel="stylesheet" href="/styles/login.min.css">
+    <script src="/js/modernizr-custom.js"></script>
     <meta charset="utf-8">
-    <title>Raggnet</title>
+    <title>Slyfox</title>
   </head>
   <body>
+  <div class="all">
+    <header>
+      <button id="menu" class="btn">
+        <div class="menu"></div>
+        <div class="menu"></div>
+        <div class="menu"></div>
+      </button>
+
+      <div>
+        <input id="search" type="search" name="search" value="Try courses & free eBooks">
+      </div>
+    </header>
+
     <div class="container">
-      <div id="menu-search">
+      <div class="resource">
 
       </div>
-
-      <div id="featured">
-
-      </div>
-
-      <footer>
-        <figure id="explore">
-
-        </figure>
-
-        <figure id="more">
-
-        </figure>
-      </footer>
     </div>
+
+    <div class="explorePop">
+      <p>Explore Resources</p>
+      <div class="button">
+        <div class="col">
+          <button id="moocs" class="btn">
+            <div class="icon"></div>
+            MOOCs
+          </button>
+        </div>
+        <div class="col">
+          <button id="ebooks" class="btn">
+            <div class="icon"></div>
+            eBooks
+          </button>
+        </div>
+<!--
+        <div class="col">
+          <button id="tools" class="btn" disabled="true">
+            <div class="icon"></div>
+            Tools
+          </button>
+        </div>
+-->
+        <div class="col">
+          <button id="more" class="btn">
+            <div class="icon"></div>
+            More
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="button">
+        <div class="col">
+          <button id="explore" class="btn">
+            <div class="icon"></div>
+            Explore
+          </button>
+        </div>
+        <div class="col">
+          <button id="foryou" class="btn">
+            <div class="icon"></div>
+            For you
+          </button>
+        </div>
+      </div>
+    </footer>
+    <script src="/js/script.min.js"></script>
+  </div>
   </body>
 </html>
